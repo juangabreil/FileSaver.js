@@ -180,9 +180,13 @@ var saveAs = saveAs || (function(view) {
 // with an attribute `content` that corresponds to the window
 
 if (typeof define === 'function' && define.amd) {
-	define(function () {
-		return {saveAs: saveAs}
-	})
-} else if (typeof module !== 'undefined' && module.exports) {
-	module.exports.saveAs = saveAs
+    define(function () { return {saveAs: saveAs}; });
+    // CommonJS and Node.js module support.
+} else if (typeof exports !== 'undefined') {
+    // Support Node.js specific `module.exports` (which can be a function)
+    if (typeof module !== 'undefined' && module.exports) {
+        exports = module.exports = {saveAs: saveAs};
+    }
+    // But always support CommonJS module 1.1.1 spec (`exports` cannot be a function)
+    exports.saveAs = saveAs;
 }
